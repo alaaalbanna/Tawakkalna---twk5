@@ -86,8 +86,15 @@
         const urlParams = new URLSearchParams(window.location.search);
         const reqNo = urlParams.get('ID') || urlParams.get('id');
         const isEditMode = !!reqNo;
+        const techSpecContainer = document.getElementById('techSpecContainer');
+        const techSpecValues = document.getElementById('techSpecValues');
+        const selectedTechSpecIds = techSpecContainer
+            ? Array.from(techSpecContainer.querySelectorAll('input[name="techSpec"]:checked')).map((input) => input.value)
+            : [];
+        const techSpecValue = (selectedTechSpecIds.join(':') || techSpecValues?.value || '').replace(/,/g, ':');
+        const techSpecOtherValue = (document.getElementById('otherTechSpecText')?.value || '').trim();
         
-        const apiUrl = 'https://webservice.ncm.gov.sa/ncmapp/api_utility_sch/epermits/request';
+        const apiUrl = 'https://webservice.ncm.gov.sa/ncmapp/api_utility_sch/epermits/request5';
         
         try {
             if (isEditMode) {
@@ -109,7 +116,9 @@
                     POSTAL_CODE: document.getElementById('postalCode')?.value || '',
                     BUILDING_NO: document.getElementById('buildingNumber')?.value || '',
                     UNIT_NO: document.getElementById('unitNumber')?.value || '',
-                    EXTRA_CODE: document.getElementById('additionalCode')?.value || ''
+                    EXTRA_CODE: document.getElementById('additionalCode')?.value || '',
+                    TECH_SPEC: techSpecValue,
+                    TECH_SPEC_OTHER: techSpecOtherValue
                 };
                 
                 console.log('📦 Update Payload:', updatePayload);
@@ -190,7 +199,9 @@
                     POSTAL_CODE: document.getElementById('postalCode')?.value || '',
                     BUILDING_NO: document.getElementById('buildingNumber')?.value || '',
                     UNIT_NO: document.getElementById('unitNumber')?.value || '',
-                    EXTRA_CODE: document.getElementById('additionalCode')?.value || ''
+                    EXTRA_CODE: document.getElementById('additionalCode')?.value || '',
+                    TECH_SPEC: techSpecValue,
+                    TECH_SPEC_OTHER: techSpecOtherValue
                 };
 
                 console.log('📦 Create Payload:', createPayload);
