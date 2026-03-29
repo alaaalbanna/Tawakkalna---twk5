@@ -57,6 +57,17 @@
 <input id="serviceTypeValue" name="serviceType" type="hidden"/>
 <div class="error-message" data-error="serviceType" data-i18n="service05.error.service_type">الرجاء اختيار نوع الخدمة</div>
 </div>
+<div class="form-group">
+<label data-i18n="service05.label.tech_spec">التخصصات المطلوبة</label>
+<div class="checkbox-group" id="techSpecContainer">
+<div class="helper-text" data-i18n="service05.loading.tech_spec">جاري تحميل التخصصات...</div>
+</div>
+<input id="techSpecValues" name="techSpecs" type="hidden"/>
+</div>
+<div class="form-group conditional-field" id="otherTechSpecGroup">
+<label data-i18n="service05.label.other_tech_spec">تخصص فني آخر</label>
+<input data-i18n-placeholder="service05.ph.other_tech_spec" id="otherTechSpecText" name="otherTechSpecText" placeholder="اكتب التخصص الفني الآخر" type="text" />
+</div>
 </div>
 </div>
 <!-- بيانات مقدم الطلب -->

@@ -164,6 +164,83 @@ async function loadDurationOptions(permitCat, permitType) {
   });
 }
 
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function toggleOtherTechSpecField(showField) {
+  const fieldGroup = document.getElementById("otherTechSpecGroup");
+  const fieldInput = document.getElementById("otherTechSpecText");
+  if (!fieldGroup || !fieldInput) return;
+
+  fieldGroup.classList.toggle("show", showField);
+  if (!showField) {
+    fieldInput.value = "";
+  }
+}
+
+function isOtherSpecialization(checkbox) {
+  if (!checkbox) return false;
+  if (checkbox.dataset.isOther === "true") return true;
+
+  const labelText = checkbox.closest("label")?.innerText || "";
+  const normalized = labelText.trim().toLowerCase();
+  return normalized.includes("أخرى") || normalized.includes("other");
+}
+
+function syncTechSpecSelection() {
+  const checkedInputs = document.querySelectorAll('input[name="techSpec"]:checked');
+  const ids = Array.from(checkedInputs).map((input) => input.value);
+  const hiddenField = document.getElementById("techSpecValues");
+  if (hiddenField) hiddenField.value = ids.join(",");
+
+  const hasOtherSelected = Array.from(checkedInputs).some((input) => isOtherSpecialization(input));
+  toggleOtherTechSpecField(hasOtherSelected);
+}
+
+async function loadTechSpecs() {
+  const container = document.getElementById("techSpecContainer");
+  if (!container) return;
+
+  const lang = getLang();
+  const url = `${EPERMIT_BASE}/tech_spec?lang=${lang}`;
+  const data = await fetchJson(url);
+
+  if (!data.length) {
+    container.innerHTML = `
+      <div class="helper-text" data-i18n="service05.nodata">لا توجد بيانات</div>
+    `;
+    return;
+  }
+
+  container.innerHTML = data
+    .map((item) => {
+      const id = escapeHtml(item.ID);
+      const name = escapeHtml(item.NAME);
+      const isOther = /أخرى|other/i.test(String(item.NAME ?? ""));
+      return `
+        <label class="checkbox-option" for="techSpec_${id}">
+          <input id="techSpec_${id}" name="techSpec" type="checkbox" value="${id}" data-is-other="${isOther}" />
+          <span class="checkbox-indicator"></span>
+          <span>${name}</span>
+        </label>
+      `;
+    })
+    .join("");
+
+  container.querySelectorAll('input[name="techSpec"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", syncTechSpecSelection);
+  });
+
+  syncTechSpecSelection();
+}
+
 function selectServiceType(id, name) {
   // set value
   document.getElementById("serviceTypeValue").value = id;
@@ -251,6 +328,8 @@ function validateForm() {
 // Hook Next button (CRITICAL PASS CONTEXT)
 // =====================================================
 document.addEventListener("DOMContentLoaded", () => {
+  loadTechSpecs();
+
   const nextBtn = document.getElementById("nextBtn");
   if (!nextBtn) return;
 
