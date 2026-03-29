@@ -1,0 +1,380 @@
+/* =========================================
+   Theme Tokens (Light / Dark)
+   Uses: <html data-theme="light|dark">
+   ========================================= */
+
+html { visibility: hidden; }
+html.app-ready { visibility: visible; }
+html {
+  font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+/* Default = Light */
+:root {
+    --bg1: #f5f7fa;
+    --bg2: #c3cfe2;
+
+    --text: #1a1a1a;
+    --muted: #666;
+    --subtitle: #555;
+
+    --title: #2c5aa0;
+
+    --card-bg: #ffffff;
+    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover-green: 0 20px 60px rgba(2, 113, 45, 0.2);
+    --card-shadow-hover-blue: 0 20px 60px rgba(44, 90, 160, 0.2);
+
+    --logo-shadow: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+
+    /* Optional: subtle border in dark mode (not used in light) */
+    --card-border: transparent;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] {
+    --bg1: #0a0a0e;
+    --bg2: #171a22;
+
+    --text: #f2f3f5;
+    --muted: #b1b7c0;
+    --subtitle: #c2c7cf;
+
+    --title: #8ab4ff;
+
+    --card-bg: #12121a;
+    --card-border: rgba(255, 255, 255, 0.07);
+
+    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+    --card-shadow-hover-green: 0 20px 60px rgba(2, 113, 45, 0.35);
+    --card-shadow-hover-blue: 0 20px 60px rgba(44, 90, 160, 0.35);
+
+    --logo-shadow: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+}
+
+/* Smooth theme transition */
+html, body, .service-card, .page-title, .page-subtitle, .card-title, .card-description, .footer, .logo {
+    transition: background-color .25s ease, color .25s ease, box-shadow .25s ease, filter .25s ease, border-color .25s ease;
+    text-align: justify;
+}
+
+.page-title, .page-subtitle{
+   text-align: center; 
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =========================================
+   Base Reset
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   Page Layout
+   ========================================= */
+body {
+    font-family: 'Cairo' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: var(--text);
+}
+
+/* Header with Logo */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.8s ease;
+}
+
+.logo {
+    width: 180px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: var(--logo-shadow);
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.page-title {
+    font-size: 18px;
+    color: var(--title);
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-subtitle {
+    font-size: 20px;
+    color: var(--subtitle);
+    font-weight: 400;
+}
+
+/* =========================================
+   Cards Container
+   ========================================= */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 450px));
+    gap: 30px;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+/* =========================================
+   Card Styles
+   ========================================= */
+.service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #02712d, #04a843);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--card-shadow-hover-green);
+}
+
+.service-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.service-card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+/* Card Icon */
+.card-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #02712d, #04a843);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(2, 113, 45, 0.3);
+    transition: all 0.4s ease;
+}
+
+.service-card:hover .card-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.card-icon svg {
+    width: 45px;
+    height: 45px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+}
+
+/* Card Content */
+.card-title {
+    font-size: 24px;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-description {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+/* Card Button */
+.card-button {
+    font-family: inherit;
+    background: #02712d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.card-button:hover {
+    background: #025a24;
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(2, 113, 45, 0.3);
+}
+
+.card-button svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card-button:hover svg {
+    transform: translateX(-5px);
+}
+
+/* =========================================
+   Animations
+   ========================================= */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   Footer
+   ========================================= */
+.footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+@media (max-width: 768px) {
+    .logo {
+        width: 140px;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .service-card {
+        padding: 25px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card-description {
+        font-size: 14px;
+    }
+
+    .card-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .card-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* =========================================
+   Second Card Different Style
+   ========================================= */
+.service-card.tracking-card .card-icon {
+    background: linear-gradient(135deg, #2c5aa0, #4a7bc8);
+    box-shadow: 0 8px 20px rgba(44, 90, 160, 0.3);
+}
+
+.service-card.tracking-card .card-button {
+    background: #2c5aa0;
+}
+
+.service-card.tracking-card .card-button:hover {
+    background: #234780;
+    box-shadow: 0 5px 15px rgba(44, 90, 160, 0.3);
+}
+
+.service-card.tracking-card::before {
+    background: linear-gradient(90deg, #2c5aa0, #4a7bc8);
+}
+
+.service-card.tracking-card:hover {
+    box-shadow: var(--card-shadow-hover-blue);
+}
+
+/* keep arrow size aligned */
+.card-button .btn-arrow{
+  width: 20px;
+  height: 20px;
+}
+
+/* LTR: flip to point RIGHT (so English next arrow looks correct) */
+html[dir="ltr"] .card-button .btn-arrow{
+  transform: scaleX(-1);
+}
+
+/* RTL: keep as-is (points LEFT) */
+html[dir="rtl"] .card-button .btn-arrow{
+  transform: none;
+}

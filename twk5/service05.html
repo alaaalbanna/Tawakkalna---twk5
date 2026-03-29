@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="service05.title">نموذج طلب خدمة</title>
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- CSS Files-->
+<link href="css/service05.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- TWK Helper Script -->
+<script src="js/twkhelper/twkhelper.js"></script>
+<script src="js/constants.js"></script>
+<script src="js/app_context.js"></script>
+<script defer="" src="js/i18n.js"></script>
+<!-- JS Files -->
+<script defer="" src="js/service05_twk.js"></script>
+<script defer="" src="js/service05_m.js"></script>
+<script defer="" src="js/service05_api.js"></script>
+</head>
+<body>
+<!-- Wizard Header -->
+<div class="wizard-header">
+<div class="wizard-steps">
+<div class="wizard-step completed">
+<div class="step-icon">
+<svg fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="step-title" data-i18n="wizard.step1">اتفاقية الاستخدام</div>
+</div>
+<div class="wizard-step active">
+<div class="step-icon">2</div>
+<div class="step-title" data-i18n="wizard.step2">البيانات الأساسية</div>
+</div>
+<div class="wizard-step">
+<div class="step-icon">3</div>
+<div class="step-title" data-i18n="wizard.step3">المرفقات</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="container">
+<form id="serviceForm">
+<!-- بيانات الخدمة -->
+<div class="section-box">
+<div class="section-header" data-i18n="service05.section.service">بيانات الخدمة</div>
+<div class="section-body">
+<div class="form-group">
+<label data-i18n="service05.label.service_type"><span class="required">*</span>نوع الخدمة</label>
+<div class="select-trigger" data-popup="serviceTypePopup">
+<span data-i18n="service05.choose_service_type">اختر نوع الخدمة</span>
+</div>
+<input id="serviceTypeValue" name="serviceType" type="hidden"/>
+<div class="error-message" data-error="serviceType" data-i18n="service05.error.service_type">الرجاء اختيار نوع الخدمة</div>
+</div>
+</div>
+</div>
+<!-- بيانات مقدم الطلب -->
+<div class="section-box">
+<div class="section-header" data-i18n="service05.section.applicant">بيانات مقدم الطلب</div>
+<div class="section-body">
+<div class="form-group">
+<label data-i18n="service05.label.name"><span class="required">*</span>الاسم</label>
+<input data-i18n-placeholder="service05.ph.name" id="fullName" name="fullName" placeholder="أدخل الاسم الكامل" type="text" />
+<div class="error-message" data-error="fullName" data-i18n="service05.error.name">الرجاء إدخال الاسم</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.nid"><span class="required">*</span>الهوية الوطنية</label>
+<input data-i18n-placeholder="service05.ph.nid" id="nationalId" maxlength="10" name="nationalId" placeholder="أدخل رقم الهوية الوطنية (10 أرقام)" type="text" />
+<div class="helper-text" data-i18n="service05.help.nid">يجب أن تكون من 10 أرقام</div>
+<div class="error-message" data-error="nationalId" data-i18n="service05.error.nid">الرجاء إدخال رقم هوية صحيح (10 أرقام)</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.email"><span class="required">*</span>البريد الإلكتروني</label>
+<input data-i18n-placeholder="service05.ph.email" id="email" name="email" placeholder="أدخل البريد الإلكتروني" type="text" />
+<div class="helper-text" data-i18n="service05.help.email">مثال: user@example.com</div>
+<div class="error-message" data-error="email" data-i18n="service05.error.email">الرجاء إدخال بريد إلكتروني صحيح</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.mobile"><span class="required">*</span>رقم الجوال</label>
+<input data-i18n-placeholder="service05.ph.mobile" id="mobileNumber" maxlength="13" name="mobileNumber" placeholder="أدخل رقم الجوال (+9665xxxxxxxx)" type="text" />
+<!--<div class="helper-text">يجب أن يبدأ بـ 05 ويتكون من 10 أرقام</div>-->
+<div class="error-message" data-error="mobileNumber" data-i18n="service05.error.mobile">الرجاء إدخال رقم جوال صحيح (05xxxxxxxx)</div>
+</div>
+<!--<div class="form-group">
+                        <label><span class="required">*</span>تاريخ الميلاد</label>
+                        <div class="date-input" id="birthDate">
+                            <span>اختر تاريخ الميلاد</span>
+                        </div>
+                        <input type="hidden" id="birthDateValue" name="birthDate"  >
+                        <div class="error-message" data-error="birthDate">الرجاء اختيار تاريخ الميلاد</div>
+                    </div>-->
+<div class="form-group">
+<label data-i18n="service05.label.dob"><span class="required">*</span>تاريخ الميلاد</label>
+<input id="birthDate" name="birthDate" type="text" />
+<div class="helper-text"></div>
+<div class="error-message" data-error="birthDate" data-i18n="service05.error.dob">الرجاء إدخال تاريخ الميلاد</div>
+</div>
+</div>
+</div>
+<!-- العنوان الوطني -->
+<div class="section-box">
+<div class="section-header" data-i18n="service05.section.address">العنوان الوطني</div>
+<div class="section-body">
+<div class="form-row">
+<div class="form-group">
+<label data-i18n="service05.label.city"><span class="required">*</span>المدينة / الحي</label>
+<input data-i18n-placeholder="service05.ph.city" id="cityDistrict" name="cityDistrict" placeholder="أدخل المدينة والحي" type="text" />
+<div class="error-message" data-error="cityDistrict" data-i18n="service05.error.city">الرجاء إدخال المدينة والحي</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.short_address"><span class="required">*</span>العنوان المختصر</label>
+<input data-i18n-placeholder="service05.ph.short_address" id="shortAddress" name="shortAddress" placeholder="أدخل العنوان المختصر" type="text" />
+<div class="error-message" data-error="shortAddress" data-i18n="service05.error.short_address">الرجاء إدخال العنوان المختصر</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label data-i18n="service05.label.building"><span class="required">*</span>رقم المبنى</label>
+<input data-i18n-placeholder="service05.ph.building" id="buildingNumber" maxlength="4" name="buildingNumber" placeholder="أدخل رقم المبنى" type="text" />
+<div class="error-message" data-error="buildingNumber" data-i18n="service05.error.building">الرجاء إدخال رقم المبنى (حتى 4 أرقام)</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.unit"><span class="required">*</span>رقم الوحدة</label>
+<input data-i18n-placeholder="service05.ph.unit" id="unitNumber" maxlength="3" name="unitNumber" placeholder="أدخل رقم الوحدة" type="text"/>
+<div class="error-message" data-error="unitNumber" data-i18n="service05.error.unit">الرجاء إدخال رقم الوحدة (حتى 3 أرقام)</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label data-i18n="service05.label.additional"><span class="required">*</span>الرمز الإضافي</label>
+<input data-i18n-placeholder="service05.ph.additional" id="additionalCode" maxlength="4" name="additionalCode" placeholder="أدخل الرمز الإضافي" type="text" />
+<div class="error-message" data-error="additionalCode" data-i18n="service05.error.additional">الرجاء إدخال الرمز الإضافي (حتى 4 أرقام)</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.postal"><span class="required">*</span>الرمز البريدي</label>
+<input data-i18n-placeholder="service05.ph.postal" id="postalCode" maxlength="5" name="postalCode" placeholder="أدخل الرمز الإضافي" type="text" />
+<div class="error-message" data-error="postalCode" data-i18n="service05.error.postal">الرجاء إدخال الرمز الإضافي (حتى 5 أرقام)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- بيانات الوثيقة -->
+<div class="section-box">
+<div class="section-header" data-i18n="service05.section.document">بيانات الوثيقة</div>
+<div class="section-body">
+<div class="form-group">
+<label data-i18n="service05.label.doc_type"><span class="required">*</span>نوع الوثيقة</label>
+<div class="select-trigger" data-popup="documentTypePopup">
+<span data-i18n="service05.choose_doc_type">اختر نوع الوثيقة</span>
+</div>
+<input id="documentTypeValue" name="documentType" type="hidden"/>
+<div class="error-message" data-error="documentType" data-i18n="service05.error.doc_type">الرجاء اختيار نوع الوثيقة</div>
+</div>
+<div class="form-group">
+<label data-i18n="service05.label.doc_duration"><span class="required">*</span>مدة الوثيقة</label>
+<div class="select-trigger" data-popup="documentDurationPopup" id="durationTrigger">
+<span data-i18n="service05.choose_doc_duration">اختر مدة الوثيقة</span>
+</div>
+<input id="documentDurationValue" name="documentDuration" type="hidden"/>
+<div class="error-message" data-error="documentDuration" data-i18n="service05.error.doc_duration">الرجاء اختيار مدة الوثيقة</div>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="form-navigation">
+<button class="btn btn-prev" data-i18n="service05.btn.prev" type="button">السابق</button>
+<button class="btn btn-next" data-i18n="service05.btn.next" id="nextBtn" type="button">متابعة</button>
+</div>
+</form>
+</div>
+<!-- Service Type Popup -->
+<div class="popup-overlay" id="serviceTypePopup">
+<div class="popup-modal">
+<div class="popup-header">
+<span data-i18n="service05.popup.service_type">نوع الخدمة</span>
+<button class="popup-close" onclick="closePopup('serviceTypePopup')" type="button">×</button>
+</div>
+<div class="popup-body" id="serviceTypeBody">
+<!-- سيتم تحميل نوع الخدمة من API -->
+</div>
+</div>
+</div>
+<!-- Document Type Popup -->
+<div class="popup-overlay" id="documentTypePopup">
+<div class="popup-modal">
+<div class="popup-header">
+<span data-i18n="service05.popup.doc_type">نوع الوثيقة</span>
+<button class="popup-close" onclick="closePopup('documentTypePopup')" type="button">×</button>
+</div>
+<div class="popup-body" id="documentTypeBody">
+<!-- سيتم تحميل نوع الوثيقة من API -->
+</div>
+</div>
+</div>
+<!-- Document Duration Popup -->
+<div class="popup-overlay" id="documentDurationPopup">
+<div class="popup-modal">
+<div class="popup-header">
+<span data-i18n="service05.popup.doc_duration">مدة الوثيقة</span>
+<button class="popup-close" onclick="closePopup('documentDurationPopup')" type="button">×</button>
+</div>
+<div class="popup-body" id="durationPopupBody">
+<!-- سيتم ملؤها ديناميكياً -->
+</div>
+</div>
+</div>
+
+</body>
+</html>

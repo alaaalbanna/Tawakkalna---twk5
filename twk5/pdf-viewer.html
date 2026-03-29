@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شروط وأحكام الخدمة</title>
+    <script src="js/pdfjs/pdf.min.js"></script>
+    <!-- CSS Files-->
+    <link rel="stylesheet" href="css/pdf-viewer.css" />
+
+    <!-- TWK Helper Script -->
+    <script src="js/twkhelper/twkhelper.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/i18n.js" defer></script>
+
+    <!-- JS Files -->
+    <script src="js/pdf-viewer_m.js" defer></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <line x1="10" y1="9" x2="8" y2="9"/>
+                </svg>
+                <span data-i18n="pdf.header_title">شروط وأحكام الخدمة</span>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="zoom-controls" aria-label="Zoom controls">
+                    <button type="button" class="zoom-btn" id="zoomOutBtn" title="Zoom out">−</button>
+                    <div class="zoom-label" id="zoomLabel">100%</div>
+                    <button type="button" class="zoom-btn" id="zoomInBtn" title="Zoom in">+</button>
+                    <button type="button" class="zoom-btn" id="zoomResetBtn" title="Reset zoom">100%</button>
+                    <button type="button" class="zoom-btn" id="zoomFitBtn" title="Fit width">Fit</button>
+                </div>
+
+                <!--<a href="SERV06_CONDITIONS.pdf" download class="download-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span>تحميل PDF</span>
+                </a>-->
+                <a href="terms.html" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span data-i18n="common.back_home">العودة للرئيسية</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Container -->
+    <div class="pdf-container">
+        <div class="pdf-viewer" id="pdfViewer">
+            <!-- Loading State -->
+            <div class="loading" id="loadingState">
+                <div class="spinner"></div>
+                <div class="loading-text" data-i18n="pdf.loading">جاري تحميل المستند...</div>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-message" id="errorState">
+                <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <div class="error-title" data-i18n="pdf.error_title">تعذر تحميل المستند</div>
+                <div class="error-text">
+                    عذراً، لم نتمكن من تحميل ملف PDF. يرجى التأكد من وجود الملف في المسار الصحيح.
+                </div>
+                <button class="retry-btn" onclick="location.reload()">
+                    إعادة المحاولة
+                </button>
+            </div>
+
+            <!-- PDF Embed (will be added by JavaScript) -->
+        </div>
+    </div>
+
+    
+</body>
+</html>

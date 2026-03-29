@@ -1,0 +1,261 @@
+    body {
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    .section-number {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .requirement-item {
+      transition: all 0.2s ease;
+    }
+
+    .requirement-item:hover {
+      transform: translateX(-5px);
+      background-color: #f8fafc;
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-gradient {
+      background: #02712d;
+    }
+
+    .sub-item {
+      position: relative;
+      padding-right: 1.5rem;
+    }
+
+    .sub-item::before {
+      content: "◆";
+      position: absolute;
+      right: 0;
+      color: #667eea;
+      font-size: 0.75rem;
+    }
+
+    .back-btn {
+      background: #02712d;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(2, 113, 45, 0.3);
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #015a24;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(2, 113, 45, 0.4);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  
+
+
+  /* ================================
+     Mobile Typography Adjustments
+     ================================ */
+
+  /* Base text */
+  body {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  /* Header title */
+  h1 {
+    font-size: 1rem; /* ~24px */
+  }
+
+  /* Section titles (أولًا، ثانيًا…) */
+  h2 {
+    font-size: 0.8rem; /* ~18px */
+    line-height: 1.6;
+  }
+
+  /* Section numbers */
+  .section-number {
+    font-size: 0.8rem;
+  }
+
+  /* Requirement text */
+  .requirement-item p {
+    font-size: 0.95rem; /* ~15px */
+    line-height: 1.75;
+  }
+
+  /* Sub items */
+  .sub-item {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* Footer */
+  footer {
+    font-size: 0.8rem;
+  }
+
+  /* ================================
+     Tablet & Up
+     ================================ */
+  @media (min-width: 640px) {
+    body {
+      font-size: 15px;
+    }
+
+    h1 {
+      font-size: 2rem; /* ~32px */
+    }
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    .section-number {
+      font-size: 1rem;
+    }
+  }
+
+  /* ================================
+     Desktop & Up
+     ================================ */
+  @media (min-width: 1024px) {
+    body {
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 1rem;
+    }
+
+    h2 {
+      font-size: 0.8rem;
+    }
+  }
+
+/* =====================================================
+   LTR Fixes (English)
+   - Flip RTL-specific spacing/borders/pseudo bullets
+   - Because HTML uses Tailwind RTL classes (mr-*, border-r-*)
+   ===================================================== */
+
+html[dir="ltr"] body {
+  text-align: left;
+  /*text-align: justify;*/
+}
+
+/* Tailwind margin-right utilities used in markup for RTL lists */
+html[dir="ltr"] .mr-4 {
+  margin-right: 0 !important;
+  margin-left: 1rem !important;
+}
+
+html[dir="ltr"] .mr-6 {
+  margin-right: 0 !important;
+  margin-left: 1.5rem !important;
+}
+
+/* Tailwind border-right utility used for requirement blocks */
+html[dir="ltr"] .border-r-4 {
+  border-right-width: 0 !important;
+  border-left-width: 4px !important;
+}
+
+/* Hover motion should go to the right in LTR */
+html[dir="ltr"] .requirement-item:hover {
+  transform: translateX(5px);
+}
+
+/* Sub-item bullets: flip padding and bullet position */
+html[dir="ltr"] .sub-item {
+  padding-right: 0;
+  padding-left: 1.5rem;
+}
+
+html[dir="ltr"] .sub-item::before {
+  right: auto;
+  left: 0;
+}
+
+/* Back button arrow: flip direction in LTR */
+html[dir="ltr"] .back-btn svg {
+  transform: scaleX(-1);
+}
+
+/* =====================================================
+   DARK THEME (same behavior as index page)
+   Triggered by: html[data-theme="dark"]
+   ===================================================== */
+
+html[data-theme="dark"] body {
+  background: linear-gradient(to bottom right, #020617, #020617);
+  color: #e5e7eb;
+}
+
+/* Cards / Sections */
+html[data-theme="dark"] section,
+html[data-theme="dark"] .card-shadow {
+  background-color: #020617 !important;
+  border: 1px solid #1e293b;
+  box-shadow: none;
+}
+
+/* Header */
+html[data-theme="dark"] .header-gradient {
+  background: linear-gradient(135deg, #065f46, #022c22);
+}
+
+/* Text */
+html[data-theme="dark"] p,
+html[data-theme="dark"] span,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3 {
+  color: #e5e7eb !important;
+}
+
+/* Requirement items */
+html[data-theme="dark"] .requirement-item {
+  background-color: #020617;
+}
+
+html[data-theme="dark"] .requirement-item:hover {
+  background-color: #020617;
+}
+
+/* Sub items */
+html[data-theme="dark"] .sub-item {
+  color: #cbd5f5;
+}
+
+/* Back button */
+html[data-theme="dark"] .back-btn {
+  background: #065f46;
+}
+
+html[data-theme="dark"] .back-btn:hover {
+  background: #047857;
+}
+
+/* Footer */
+html[data-theme="dark"] footer {
+  color: #9ca3af;
+}
+

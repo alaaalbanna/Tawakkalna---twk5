@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>متابعة الطلبات</title>
+
+  <!-- ✅ نفس CSS القديم -->
+  <link rel="stylesheet" href="css/requests.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+  <!-- ✅ TWK helper scripts -->
+  <script src="js/twkhelper/twkhelper.js"></script>
+  <script src="js/constants.js"></script>
+  <script src="js/app_context.js"></script>
+<script src="js/i18n.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Header (مطابق للقديم) -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="header-title" data-i18n="requests.title">متابعة الطلبات</h1>
+      <p class="header-subtitle" data-i18n="requests.subtitle">تتبع حالة طلباتك ومعرفة تفاصيل كل طلب</p>
+    </div>
+  </div>
+
+  <!-- Main Container (مطابق للقديم) -->
+  <div class="container">
+
+    <!-- Filters Section (مطابق للقديم) -->
+    <div class="filters-section">
+      <div class="filters-grid">
+
+        <div class="filter-group">
+          <label class="filter-label" for="filterStatus" data-i18n="requests.filter.status">حالة الطلب</label>
+          <select class="filter-select" id="filterStatus">
+            <option value="all" data-i18n="requests.opt.all_requests">جميع الطلبات</option>
+            <option value="in-progress" data-i18n="requests.opt.in_progress">تحت الإجراء</option>
+            <option value="approved" data-i18n="requests.opt.approved">مقبول</option>
+            <option value="rejected" data-i18n="requests.opt.rejected">مرفوض</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label" for="filterCompletion" data-i18n="requests.filter.completion">حالة الاكتمال</label>
+          <select class="filter-select" id="filterCompletion">
+            <option value="all" data-i18n="requests.opt.all">الكل</option>
+            <option value="complete" data-i18n="requests.opt.complete">مكتمل</option>
+            <option value="incomplete" data-i18n="requests.opt.incomplete">غير مكتمل</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label" for="filterService" data-i18n="requests.filter.service">نوع الخدمة</label>
+          <select class="filter-select" id="filterService">
+            <option value="all" data-i18n="requests.opt.all">الكل</option>
+            <option value="issuance" data-i18n="requests.opt.issuance">إصدار</option>
+            <option value="renewal" data-i18n="requests.opt.renewal">تجديد</option>
+            <option value="replacement" data-i18n="requests.opt.replacement">بدل فاقد</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Actions (جديدة لكن بنفس ستايل الأزرار القديمة) -->
+      <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+        <button id="btnRefresh" class="btn btn-primary" type="button" data-i18n="requests.btn.refresh">تحديث</button>
+        <button id="btnClearFilters" class="btn btn-secondary" type="button" data-i18n="requests.btn.clear">مسح الفلاتر</button>
+      </div>
+    </div>
+
+    <!-- Requests List -->
+    <div id="requestsList" class="requests-list"></div>
+
+  </div>
+
+  <!-- JS -->
+  <script src="js/requests_m.js"></script>
+  <script src="js/requests_api.js"></script>
+</body>
+</html>

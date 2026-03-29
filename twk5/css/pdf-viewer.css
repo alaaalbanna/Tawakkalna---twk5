@@ -1,0 +1,465 @@
+/* ===============================
+   PDF Viewer - Light/Dark Mode
+   Supports:
+   - System theme via prefers-color-scheme
+   - Optional manual override via html[data-theme="dark"]
+   =============================== */
+
+/* ---------- Theme Tokens ---------- */
+:root {
+    color-scheme: light;
+
+    --primary: #02712d;
+    --primary-2: #04a843;
+    --info: #2c5aa0;
+
+    --page-bg: #f5f6f8;
+    --surface: #ffffff;
+
+    --text: #111;
+    --text-2: #333;
+    --muted: #666;
+
+    --border: rgba(0, 0, 0, 0.06);
+
+    --shadow-header: 0 2px 10px rgba(0, 0, 0, 0.10);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.10);
+    --shadow-btn: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    --btn-bg: #ffffff;
+    --btn-text: var(--primary);
+    --btn-hover-bg: #f0f0f0;
+
+    --spinner-track: #f3f3f3;
+
+    --danger: #dc3545;
+}
+
+/* System Dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+
+        --page-bg: #0b0f0c;
+        --surface: #121a14;
+
+        --text: #eaf6ee;
+        --text-2: #d7e7dc;
+        --muted: #a6b7ad;
+
+        --border: rgba(255, 255, 255, 0.08);
+
+        --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.55);
+        --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.65);
+        --shadow-btn: 0 6px 16px rgba(0, 0, 0, 0.6);
+
+        --btn-bg: rgba(255, 255, 255, 0.10);
+        --btn-text: #eaf6ee;
+        --btn-hover-bg: rgba(255, 255, 255, 0.16);
+
+        --spinner-track: rgba(255, 255, 255, 0.10);
+    }
+}
+
+/* Optional manual override */
+html[data-theme="dark"],
+body[data-theme="dark"] {
+    color-scheme: dark;
+
+    --page-bg: #0b0f0c;
+    --surface: #121a14;
+
+    --text: #eaf6ee;
+    --text-2: #d7e7dc;
+    --muted: #a6b7ad;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.55);
+    --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.65);
+    --shadow-btn: 0 6px 16px rgba(0, 0, 0, 0.6);
+
+    --btn-bg: rgba(255, 255, 255, 0.10);
+    --btn-text: #eaf6ee;
+    --btn-hover-bg: rgba(255, 255, 255, 0.16);
+
+    --spinner-track: rgba(255, 255, 255, 0.10);
+}
+
+/* ---------- Smooth Theme Transition ---------- */
+html, body, .pdf-viewer, .header, .back-btn, .download-btn, .retry-btn,
+.loading-text, .error-title, .error-text {
+    transition: background-color .25s ease, color .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--page-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+}
+
+/* ---------- Header ---------- */
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    color: white;
+    padding: 20px;
+    box-shadow: var(--shadow-header);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* ---------- Back Button ---------- */
+.back-btn {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background: var(--btn-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn);
+}
+
+.back-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ---------- PDF Container ---------- */
+.pdf-container {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.pdf-viewer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    height: calc(100vh - 140px);
+}
+
+.pdf-embed {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Extra safety: some browsers still show a default iframe border */
+.pdf-viewer iframe,
+iframe.pdf-embed {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Loading State ---------- */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--spinner-track);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--muted);
+    font-size: 16px;
+}
+
+/* ---------- Error State ---------- */
+.error-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+    padding: 40px;
+    text-align: center;
+}
+
+.error-message.show {
+    display: flex;
+}
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    color: var(--danger);
+}
+
+.error-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-2);
+}
+
+.error-text {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 500px;
+}
+
+.retry-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+}
+
+/* ---------- Download Button ---------- */
+.download-btn {
+    background: var(--info);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+}
+
+.download-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .header-title {
+        font-size: 20px;
+    }
+
+    .pdf-viewer {
+        height: calc(100vh - 180px);
+    }
+
+    .back-btn,
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ---------- Print Styles ---------- */
+@media print {
+    .header,
+    .back-btn,
+    .download-btn {
+        display: none;
+    }
+
+    .pdf-container {
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .pdf-viewer {
+        height: auto;
+        box-shadow: none;
+        border: none;
+    }
+}
+
+
+/* ===============================
+   Zoom Controls
+   =============================== */
+.zoom-controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.zoom-btn{
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    text-decoration: none;
+}
+
+.zoom-btn:hover{
+    background: var(--btn-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-btn);
+}
+
+.zoom-label{
+    background: rgba(0,0,0,0.06);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 800;
+    min-width: 72px;
+    text-align:center;
+}
+
+html[data-theme="dark"] .zoom-label,
+body[data-theme="dark"] .zoom-label{
+    background: rgba(255,255,255,0.10);
+}
+
+/* Make controls direction-aware (optional) */
+html[dir="rtl"] .zoom-controls { direction: rtl; }
+html[dir="ltr"] .zoom-controls { direction: ltr; }
+
+/* ===============================
+   Canvas page styling (moved from inline)
+   =============================== */
+#pdfCanvasContainer{
+    background: var(--page-bg);
+}
+
+.pdf-page{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    margin: 12px auto;
+    padding: 10px;
+    /* Allow real zoom (don't clamp page width) */
+    width: fit-content;
+    max-width: none;
+}
+
+.pdf-page-label{
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+.pdf-canvas{
+    /* Let the canvas size (set by JS) control zoom */
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Improve mobile spacing */
+@media (max-width: 768px){
+    .zoom-controls{
+        width: 100%;
+        justify-content: center;
+    }
+    .zoom-btn{
+        flex: 1 1 auto;
+    }
+    .zoom-label{
+        flex: 0 0 auto;
+    }
+}

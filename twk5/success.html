@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم إرسال الطلب بنجاح</title>
+
+    <!-- CSS Files-->
+    <link rel="stylesheet" href="css/success.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+    <!-- TWK Helper Script -->
+    <script src="js/twkhelper/twkhelper.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/app_context.js"></script>
+<script src="js/i18n.js" defer></script>
+
+    <!-- JS Files -->
+    <script src="js/success_m.js" defer></script>
+
+</head>
+<body>
+    <div class="success-container">
+        <!-- Success Icon -->
+        <div class="success-icon-container">
+            <div class="success-icon-wrapper">
+                <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25"/>
+                    <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="success-content">
+            <h1 class="success-title" data-i18n="success.main">تم إرسال طلبك بنجاح!</h1>
+            <p class="success-message" data-i18n="success.msg">
+                تم رفع طلبك إلى الإدارة المعنية بنجاح. سيتم مراجعة المستندات والبيانات المقدمة والرد عليك في أقرب وقت ممكن.
+            </p>
+           <!-- <p class="success-message" data-i18n="success.msg">
+                تم رفع طلبك إلى الإدارة المعنية بنجاح. ستتم مراجعة البيانات المقدمة والرد عليك في أقرب وقت ممكن.
+            </p>-->
+
+            <!-- Request Details -->
+            <div class="request-details">
+                <div class="detail-row">
+                    <span class="detail-label" data-i18n="success.details.reqno">رقم الطلب</span>
+                    <span class="request-number" id="requestNumber">NCM-2024-00123</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label" data-i18n="success.details.date">تاريخ التقديم</span>
+                    <span class="detail-value" id="submitDate">15 ديسمبر 2024</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label" data-i18n="success.details.service">نوع الخدمة</span>
+                    <span class="detail-value" id="serviceType">طلب إصدار ترخيص</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label" data-i18n="success.details.status">الحالة</span>
+                    <span class="detail-value" data-i18n="success.status.review">قيد المراجعة</span>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <div class="info-box-title">
+                    <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <span data-i18n="success.next.title">ما هي الخطوات القادمة؟</span>
+                </div>
+                <div class="info-box-text" data-i18n="success.next.text">
+                    سيقوم فريق المراجعة بدراسة طلبك والتحقق من المستندات المرفقة. قد تستغرق العملية من 6 إلى 23 أيام عمل. سيتم إرسال إشعار لك عبر البريد الإلكتروني عند تحديث حالة الطلب.
+                </div>
+                <!--<div class="info-box-text"  data-i18n="success.next.text">
+                    سيقوم فريق المراجعة بدراسة طلبك  قد تستغرق العملية من 6 إلى 23 أيام عمل. سيتم إرسال إشعار لك عبر البريد الإلكتروني عند تحديث حالة الطلب.
+                </div>-->
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span data-i18n="success.btn.home">الصفحة الرئيسية</span>
+                </a>
+                <!--<a href="requests.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <span data-i18n="success.btn.track">متابعة الطلب</span>
+                </a>-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
